@@ -1,0 +1,21 @@
+I think I am half understanding it. For the phases, my understanding was for the phase diagram they start contributing 1 decade before and finish their contribution 1 decade after their break frequency. For the TF that would be:
+
+0.361, 36.1 for ((s/3.61)^2 - (4/13)*s + 1)
+0.2,20 for ((s/2) + 1)
+0.4,40 for ((s/4) + 1)
+and the s term is -90 everywhere.
+
+Following this logic:
+Starting frequency -90 degrees
+At 0.2 slope of -45 degrees
+At 0.361 slope of -45 + -90 = -135
+At 0.4 slope of -45 + -90 + -45 = -180
+
+
+For the zero term, the hi frequency response is -w^2 which has a phase of 180. The break frequency term is -2(dampratio)(Wn)(w)*j which would become 180+90? The low frequency is 0 degrees but since the break is 270, it would have to actually be 360 degrees. I believe that's the correct process to get those values.
+
+
+I still am confused why we add the low frequency of the zero term at the start instead of just adding together the slopes. 
+
+Thanks for the quick reply,
+Brad

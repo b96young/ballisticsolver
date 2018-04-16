@@ -1,0 +1,440 @@
+<ContainerBox>:
+	BoxLayout:
+		id: boxlayout_h
+		orientation: 'horizontal'
+		BoxLayout:
+		    padding:[5,10,0,10]
+		    size_hint:0.15,1
+		    orientation: 'vertical'
+            ToggleButton:
+                text: 'Parameters'
+                group: 'selector'
+                on_state: root.show_bullet() if self.state == 'down' else root.clear_main()
+            ToggleButton:
+                text: 'Plot Trajectory'
+                group: 'selector'
+                on_state: root.show_trajectory() if self.state == 'down' else root.clear_main()
+            ToggleButton:
+                text: 'Calculate Adjustments'
+                group: 'selector'
+                on_state: root.show_calculate() if self.state == 'down' else root.clear_main()
+            ToggleButton:
+                text: 'Shot Simulator'
+                group: 'selector'
+                on_state: root.show_simulation() if self.state == 'down' else root.clear_main()
+            ToggleButton:
+                text: 'Graph Units'
+                group: 'selector'
+                on_state: root.show_graph_units() if self.state == 'down' else root.clear_main()
+
+        BoxLayout:
+            id: main
+            orientation:'vertical'
+            padding:[0,10,0,10]
+            size_hint: 0.4,1
+
+
+	    BoxLayout:
+	        orientation:'vertical'
+	        size_hint:0.35,1
+	        padding:[0,10,5,10]
+	        spacing:20
+            GridLayout:
+                cols: 4
+
+                Label:
+                    text: 'Muzzle Velocity'
+                    size_hint_x:None
+                    width: 150
+                TextInput:
+                    id:parammuzzlevelocity
+                    size_hint_x:.25
+                ToggleButton:
+                    text:'fps'
+                    group:'muzzle'
+                    id:paramfps
+                    size_hint_x:.125
+                ToggleButton:
+                    text:'m/s'
+                    group:'muzzle'
+                    size_hint_x:.125
+                    id:parammps
+
+                Label:
+                    text: 'Elevation'
+                    size_hint_x:None
+                    width: 150
+                TextInput:
+                    id:paramelevation
+                ToggleButton:
+                    text:'MOA'
+                    group:'elevation'
+                    id:paramemoa
+                ToggleButton:
+                    text:'MIL'
+                    group:'elevation'
+                    id:paramemil
+
+                Label:
+                    size_hint_x:None
+                    width: 150
+                    text: 'Windage'
+                TextInput:
+                    id:paramwindage
+                ToggleButton:
+                    text:'MOA'
+                    group:'windage'
+                    id:paramwmoa
+                ToggleButton:
+                    text:'MIL'
+                    group:'windage'
+                    id:paramwmil
+
+                Label:
+                    size_hint_x:None
+                    width: 150
+                    text: 'Wind Speed'
+                TextInput:
+                    id:paramwindspeed
+                ToggleButton:
+                    text:'MPH'
+                    group:'windspeed'
+                    id:parammph
+                ToggleButton:
+                    text:'KM/H'
+                    group:'windspeed'
+                    id:paramkmh
+
+                Label:
+                    size_hint_x:None
+                    width: 150
+                    text: 'Wind Angle'
+                TextInput:
+                    id:paramwindangle
+                Label:
+                    text:'degrees'
+
+            Button:
+                padding_y:[10,10]
+                text:'Save Settings'
+                size_hint:1,0.15
+                on_press: root.saveParams()
+
+
+            Image: #Empty widget to push gridlayout to top of page
+                allow_stretch:False
+                keep_ratio: True
+                source:'Practice.png'
+
+<BulletInfo>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing:10
+
+        Widget: #Centering Placeholder
+            size_hint_y:.25
+
+        BoxLayout:
+            size_hint_y:.1
+            orientation: 'horizontal'
+            Label:
+                text:'Bullet Mass'
+            TextInput:
+                id: bulletweight
+            Label:
+                text:'grains'
+        BoxLayout:
+            size_hint_y:.1
+            orientation: 'horizontal'
+            Label:
+                text:'Bullet BC'
+            TextInput:
+                id:bulletBC
+            Label:
+        BoxLayout:
+            size_hint_y:.1
+            orientation: 'horizontal'
+            Label:
+                text:'Bullet Diameter'
+            TextInput:
+                id:bulletdia
+            Label:
+                text:'in'
+        Button:
+            text: 'Save'
+            size_hint:1,.1
+            on_press: root.saveBullet()
+
+
+        Widget:#Spacing Widget
+            size_hint_y:.25
+
+<Trajectory>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing:0
+
+        Widget: #Spacing Widget
+            size_hint:1,.4
+
+        BoxLayout:
+            size_hint_y:.2
+            orientation: 'horizontal'
+            ToggleButton:
+                text:'Plot3D'
+                id:trajectory3d
+            Button:
+                text:'Plot Trajectory'
+                on_press: root.plotTrajectory()
+
+        Widget: #Spacing Widget
+            size_hint:1,.4
+
+<Calculate>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing:10
+
+        Widget: #Spacing Widget
+            size_hint:1,.35
+        BoxLayout:
+            size_hint_y:.15
+            orientation: 'horizontal'
+            Label:
+                text:'Elevation Adjustment'
+                size_hint_x:0.5
+            Label:
+                text:'MOA'
+                id:calculateEAdjustMoa
+                size_hint_x:0.25
+            Label:
+                text:'MIL'
+                id:calculateEAdjustMil
+                size_hint_x:0.25
+        BoxLayout:
+            size_hint_y:.15
+            orientation: 'horizontal'
+            Label:
+                text:'Windage Adjustment'
+                size_hint_x:0.5
+            Label:
+                text:'MOA'
+                id:calculateWAdjustMoa
+                size_hint_x:0.25
+            Label:
+                text:'MIL'
+                id:calculateWAdjustMil
+                size_hint_x:0.25
+
+        Widget: #Spacing Widget
+            size_hint:1,.35
+
+        BoxLayout:
+            size_hint_y:.15
+            orientation: 'horizontal'
+            Label:
+                text:'Distance'
+                size_hint_x:0.5
+            TextInput:
+                size_hint_x:0.2
+                id:calculatedistance
+            ToggleButton:
+                text:'yd'
+                id:calculateyd
+                group:'calc_dist'
+                size_hint_x:0.15
+            ToggleButton:
+                text:'m'
+                id:calculatem
+                group:'calc_dist'
+                size_hint_x:0.15
+        BoxLayout:
+            size_hint_y:.15
+            orientation: 'horizontal'
+            ToggleButton:
+                text:'Plot3D'
+                id:calculate3d
+            Button:
+                text:'Plot Trajectory'
+                on_press: root.runCalculation()
+
+        Widget: #Spacing Widget
+            size_hint:1,.35
+
+<Simulation>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing:10
+
+        Widget: #Centering Placeholder
+            size_hint_y:.25
+
+        BoxLayout:
+            size_hint_y:.1
+            orientation: 'horizontal'
+            Label:
+                text:'Distance'
+                size_hint_x:0.5
+            TextInput:
+                size_hint_x:0.2
+                id:simulationd
+            ToggleButton:
+                size_hint_x:0.15
+                text:'yd'
+                group:'sim_distance'
+                id:simulationyd
+            ToggleButton:
+                size_hint_x:0.15
+                text:'m'
+                group:'sim_distance'
+                id:simulationm
+
+        BoxLayout:
+            size_hint_y:.1
+            orientation: 'horizontal'
+            Label:
+                size_hint_x:0.5
+                text:'Standard Dev. Velocity'
+            TextInput:
+                size_hint_x:0.2
+                id:simulationsdv
+            ToggleButton:
+                size_hint_x:0.15
+                text:'FPS'
+                group:'sim_SDV'
+                id:simulationfps
+            ToggleButton:
+                size_hint_x:0.15
+                text:'M/S'
+                group:'sim_SDV'
+                id:simulationms
+        BoxLayout:
+            size_hint_y:.1
+            orientation: 'horizontal'
+            Label:
+                size_hint_x:0.5
+                text:'Standard Dev Wind Speed'
+            TextInput:
+                size_hint_x:0.2
+                id:simulationsdw
+            ToggleButton:
+                size_hint_x:0.15
+                text:'MPH'
+                group:'sim_SDW'
+                id:simulationmph
+            ToggleButton:
+                size_hint_x:0.15
+                text:'KM/H'
+                group:'sim_SDW'
+                id:simulationkmh
+
+        BoxLayout:
+            size_hint_y:.1
+            orientation: 'horizontal'
+            Label:
+                size_hint_x:0.5
+                text:'Standard Dev Wind Angle'
+            TextInput:
+                size_hint_x:0.2
+                id:simulationsdwa
+            Label:
+                size_hint_x:0.15
+                text:'degrees'
+            Label:#Placeholder
+                size_hint_x:0.15
+
+        BoxLayout:
+            size_hint_y:.1
+            orientation: 'horizontal'
+            Label:
+                size_hint_x:0.5
+                text:'# Simulated Shots'
+            TextInput:
+                size_hint_x:0.2
+                id:simulationnumshots
+            Label:#Placeholder
+                size_hint_x:0.15
+            Label:#Placeholder
+                size_hint_x:0.15
+
+        ToggleButton:
+            size_hint_y:.1
+            text:'Show Trajectory Paths'
+            id:simulationTPaths
+
+        Button:
+            text: 'Plot Trajectory'
+            size_hint:1,.1
+            on_press: root.runSimulation()
+
+        Widget:#Spacing Widget
+            size_hint_y:.25
+
+<GraphUnits>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing:0
+
+        Widget: #Spacing Widget
+            size_hint:1,.4
+
+        BoxLayout:
+            size_hint_y:.1
+            orientation: 'horizontal'
+            Label:
+                text:'Elevation Graph Units'
+                size_hint_x:0.5
+            ToggleButton:
+                size_hint_x:0.15
+                text:'in'
+                group:'graphElevation'
+                id:graphElevationIn
+            ToggleButton:
+                size_hint_x:0.15
+                text:'cm'
+                group:'graphElevation'
+                id:graphElevationCm
+
+        BoxLayout:
+            size_hint_y:.1
+            orientation: 'horizontal'
+            Label:
+                text:'Windage Graph Units'
+                size_hint_x:0.5
+            ToggleButton:
+                size_hint_x:0.15
+                text:'in'
+                group:'graphWindage'
+                id:graphWindageIn
+            ToggleButton:
+                size_hint_x:0.15
+                text:'cm'
+                group:'graphWindage'
+                id:graphWindageCm
+
+        BoxLayout:
+            size_hint_y:.1
+            orientation: 'horizontal'
+            Label:
+                text:'Distance Graph Units'
+                size_hint_x:0.5
+            ToggleButton:
+                size_hint_x:0.15
+                text:'yd'
+                group:'graphDistance'
+                id:graphDistanceYd
+            ToggleButton:
+                size_hint_x:0.15
+                text:'m'
+                group:'graphDistance'
+                id:graphDistanceM
+
+        Button:
+            padding_y:[10,10]
+            text:'Save Settings'
+            size_hint:1,0.15
+            on_press: root.saveGraphUnits()
+
+
+        Widget: #Spacing Widget
+            size_hint:1,.4

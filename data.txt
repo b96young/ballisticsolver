@@ -1,0 +1,35 @@
+{
+	"BallisticSolver": {
+		"bullet": {
+			"bullet_mass": 180,
+			"ballistic_coeff": 0.1,
+			"bullet_dia": 0.308
+		},
+		"calculate": {
+			"distance": 1000,
+			"unit": "yd"
+		},
+		"simulation": {
+			"distance": 800,
+			"d_unit": "yd",
+			"SDV": 10,
+			"SDV_unit": "fps",
+			"SDW": 1,
+			"SDW_unit": "mph",
+			"SDWA": 10,
+			"num_shots": 10
+		},
+		"parameters": {
+			"muzzle_velocity": 2800,
+			"muzzle_units": "fps",
+			"elevation": 3.1,
+			"elevation_units": "moa",
+			"windage": 1.2,
+			"windage_units": "moa",
+			"wind_speed": 3,
+			"wind_speed_units": "mph",
+			"wind_angle": 45
+		}
+
+	}
+}

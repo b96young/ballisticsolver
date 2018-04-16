@@ -1,0 +1,106 @@
+#Euler
+# Cd = (m*Cg*0.0014223)/((BC)*d^2)
+# my'' = -1/2*Rho_Air*Cd*Ac*y^2
+
+
+Class Trajectory(velocity,bullet,elevation,windage,velocityunit)
+    -velocity(int) default unit m/s unless units = 'imp' then fps
+    -bullet(dict):
+        bullet contains bullet characteristics in following format
+            bullet_stats = {
+                "bullet_grains":165,
+                "ballistic_coefficient":0.48,
+                "bullet_diameter":0.00762,
+                "air_density":0.707,
+                "drag_coefficient":0.1,
+                "cross_area":0.000192
+            }
+    -elevation(float) in mils
+        -used to calculate the default trajectory when calling Trajectory.trajectoryGraph()
+    -windage(float) in mils
+        -used to calculate the default trajectory when calling Trajectory.trajectoryGraph()
+    -velocityunit(string)
+        if units == 'mps':
+            converts velocity from fps to m/s
+        else:
+            leaves velocity in m/s
+
+Trajectory.crosswind(int) defaults 0
+    -sets crosswind speed in simulation
+        if using units == 'imp' use MPH
+        default unit is m/s
+
+Trajectory.windDirection(int) defaults 0
+    -sets wind direction in degrees CCW starting from 0degrees [Wind blowing from right to left]
+     to 360degrees.
+    ie: Trajectory.windDirection = 180 #sets wind direction from left to right
+
+Trajectory.simTime(int)
+    -sets the runtime for the simulation, recommended < 2 seconds
+
+Trajectory.time_interval(float)
+    -sets the time interval between steps in simulation, recommended 0.01
+
+Trajectory.graphUnits(elevation, distance)
+    Converts units on trajectory graph axes to desired units (default unit meters)
+    -elevation(string) desired units for elevation & windage axes on trajectory graph [defaults m]
+        options: 'in', 'cm', 'ft', 'yd'
+    -distance(string) desired units for distance axis on trajectory graph [default unit meters]
+        options: 'mile','km','yd'
+
+Trajectory.trajectoryGraph(displayGraph,plot3D)
+    Creates a plot of the trajectory graph based on bullet characteristics and initial windage, elevation, and wind characteristics
+    -displayGraph(boolean)
+       trajectoryGraph can be called without displaying the trajectory graph by setting displayGraph = False
+    -plot3D(boolean) defaults to False
+        plot3D = True shows bullet trajectory in a 3D plot
+
+Trajectory.calculation(distance,unit,plot3D)
+    Calculates mil / moa adjustments based on environment and ballistic parameters
+    -distance(int) default unit m
+        distance to target
+    -unit(string)
+        units of distance, default unit meters
+        if unit is set to 'yd', uses distance in yards
+    -plot3D(boolean) defaults to False
+        displays graph in 3D plot if plot3D == True
+
+Trajectory.shotProbability(distance,unit,SD_velocity,SDWind_velocity,SDWind_angle,simNumber,trajectoryPaths=False)
+
+
+
+
+Statistical Deviation
+-distance to target
+-SD of velocity
+-SD of wind velocity
+-SD of wind angle
+-list POI data
+    -list holding POI Y,Z coord data
+    [[y1,z1],[y2,z2]]
+
+Velocity:
+V_estimate = prediction
+Vmin = V_estimate - SD_v
+Vmax = V_estimate + SD_v
+V = (random_int(0,1000)/1000.0)*(Vmax-Vmin)+Vmin
+
+Wind Velocity:
+WindV_estimate = prediction
+WindVmin = WindV_estimate - SDWind_v
+WindVmax = WindV_estimate + SDWind_v
+
+Wind Angle:
+WindA_estimate = prediction
+WindA_min = WindA_estimate - SDWind_a
+WindA_max = WindA_estimate + SDWind_a
+
+MOA = 1/60 degree
+x = dist*tan(1/60)
+
+2.91cm at 100m
+0.0291m at 100m
+1.1457in at 100m
+
+Add realistic Cd values for drag
+Build GUI
