@@ -143,11 +143,22 @@ class BulletInfo(BoxLayout):
         self.ids.bulletBC.text = str(bullet_data.data["BallisticSolver"]['bullet']['ballistic_coeff'])
         self.ids.bulletdia.text = str(bullet_data.data["BallisticSolver"]['bullet']['bullet_dia'])
 
+        if (bullet_data.data["BallisticSolver"]['bullet']['drag_model'] == "G7"):
+            self.ids.dragG7.state = 'down'
+        elif (bullet_data.data["BallisticSolver"]['bullet']['drag_model'] == "G1"):
+            self.ids.dragG1.state = 'down'
+
     def saveBullet(self):
         bullet_data = load_json()
         bullet_data.data["BallisticSolver"]['bullet']['bullet_mass'] = int(self.ids.bulletweight.text)
         bullet_data.data["BallisticSolver"]['bullet']['ballistic_coeff'] = float(self.ids.bulletBC.text)
         bullet_data.data["BallisticSolver"]['bullet']['bullet_dia'] = float(self.ids.bulletdia.text)
+
+        if (self.ids.dragG7.state == 'down'):
+            bullet_data.data["BallisticSolver"]['bullet']['drag_model'] = "G7"
+        elif (self.ids.dragG1.state == 'down'):
+            bullet_data.data["BallisticSolver"]['bullet']['drag_model'] = "G1"
+
         bullet_data.write_json(bullet_data.data)
 
 class Trajectory(BoxLayout):

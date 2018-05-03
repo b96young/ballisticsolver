@@ -143,6 +143,8 @@
                 id: bulletweight
             Label:
                 text:'grains'
+            Label:
+
         BoxLayout:
             size_hint_y:.1
             orientation: 'horizontal'
@@ -150,7 +152,14 @@
                 text:'Bullet BC'
             TextInput:
                 id:bulletBC
-            Label:
+            ToggleButton:
+                text:'G1'
+                group:'dragmodel'
+                id:dragG1
+            ToggleButton:
+                text:'G7'
+                group:'dragmodel'
+                id:dragG7
         BoxLayout:
             size_hint_y:.1
             orientation: 'horizontal'
@@ -160,6 +169,7 @@
                 id:bulletdia
             Label:
                 text:'in'
+            Label:
         Button:
             text: 'Save'
             size_hint:1,.1

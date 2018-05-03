@@ -5,6 +5,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from math import pow as pow
 import math,random
 import BallisticSolverFunctions as BSF
+import csvreader
 
 class Trajectory(object):
 
@@ -89,10 +90,22 @@ class Trajectory(object):
         yxk = self.yx0
         #Bullet mass in kg converted from grains
         bullet_mass = self.bullet["bullet_mass"]*0.0000648
+        #Bullet diameter from inch to meters
+        bullet_dia = self.bullet["bullet_dia"]*0.0254
+        #Bullet cross area
+        bullet_area = math.pow(bullet_dia,2)*3.14/4
+        print (bullet_area)
+
         for t in range(0,self.steps+1):
+            #Calculate BC for the velocity
+            ref_cd = csvreader.dragCoefficient(self.bullet["drag_model"],vxk,343)
+            drag_coefficient = bullet_mass*ref_cd/self.bullet["ballistic_coeff"]/math.pow(bullet_dia,2)*0.0014223
+            print (vxk)
+            print (drag_coefficient)
+
             #CALCULATE BULLET DROP AND VELOCITY
             currentTime = t * float(self.time_interval)
-            vxk1 = vxk + self.time_interval*(-0.5*self.bullet["air_density"]*self.bullet["drag_coeff"]*self.bullet["cross_area"]*pow(vxk,2)/bullet_mass)
+            vxk1 = vxk + self.time_interval*(-0.5*self.bullet["air_density"]*drag_coefficient*bullet_area*pow(vxk,2)/bullet_mass)
             yxk1 = yxk + self.time_interval*(vxk)
 
             #Calculate Windage Effects (y direction, From right to left is positive direction)
