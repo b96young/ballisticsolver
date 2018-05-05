@@ -1,4 +1,6 @@
-import csv,math
+import csv
+import datetime
+
 def dragCoefficient(model,velocity,mach_conversion):
     if model == "G7":
         with open("G7 Drag Function.csv") as G7DragFile:
@@ -36,7 +38,6 @@ def dragCoefficient(model,velocity,mach_conversion):
             bottom_index = 0
 
             for row in G1Drag:
-                print (row)
                 velocity_table = float(row[0])*mach_conversion
                 if velocity - velocity_table == 0:
                     return row[1]
@@ -56,3 +57,12 @@ def dragCoefficient(model,velocity,mach_conversion):
                     cd = (y_values[1]-y_values[0]) / (x_values[1]-x_values[0]) * (velocity-x_values[0]) + y_values[0]
                     return cd
 
+def createDropTable(distance,elevation,wind,velocity):
+    current_date = datetime.datetime.now()
+    file_name = current_date.strftime("%Y%m%d%H%M%S.csv")
+    with open(file_name,"w", newline='') as excel_file:
+        output_file = csv.writer(excel_file)
+        output_file.writerow(["Units same as graph units"])
+        output_file.writerow(["Distance","Elevation","Wind Deflection","Velocity"])
+        for i in range(0,len(distance)):
+            output_file.writerow([distance[i],elevation[i],wind[i],velocity[i]])

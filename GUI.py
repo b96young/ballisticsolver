@@ -181,8 +181,12 @@ class Trajectory(BoxLayout):
         distanceUnits = trajectoryData.data["BallisticSolver"]['graphUnits']['distance_units']
         ballisticsolver.graphUnits(elevationUnits, distanceUnits)
 
-        if(self.ids.trajectory3d.state == 'down'):
-            ballisticsolver.trajectoryGraph(True,True)
+        if (self.ids.trajectory3d.state == 'down' and self.ids.excelfile.state == 'down'):
+            ballisticsolver.trajectoryGraph(True, True, True)
+        elif (self.ids.excelfile.state == 'down'):
+            ballisticsolver.trajectoryGraph(True, False, True)
+        elif(self.ids.trajectory3d.state == 'down'):
+            ballisticsolver.trajectoryGraph(True, True)
         else:
             ballisticsolver.trajectoryGraph(True)
 
