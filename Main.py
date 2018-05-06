@@ -1,5 +1,6 @@
 import json
 import BallisticCalculationClass as BCC
+import sight_adjustment as SI
 
 from kivy.app import App
 from kivy.uix.togglebutton import ToggleButton
@@ -129,6 +130,10 @@ class ContainerBox(BoxLayout):
     def show_simulation(self):
         self.ids.main.clear_widgets()
         self.ids.main.add_widget(Simulation())
+
+    def show_sight_in(self):
+        self.ids.main.clear_widgets()
+        self.ids.main.add_widget(SightIn())
 
     def show_graph_units(self):
         self.ids.main.clear_widgets()
@@ -355,6 +360,46 @@ class Simulation(BoxLayout):
             ballisticsolver.shotProbability(distance,distance_unit,SD_v,SDWind_v,SDWind_angle,num_shots,True)
         else:
             ballisticsolver.shotProbability(distance,distance_unit,SD_v,SDWind_v,SDWind_angle,num_shots)
+
+class SightIn(BoxLayout):
+    def __init__(self, **kwargs):
+        super(SightIn, self).__init__(**kwargs)
+
+
+    def runSight(self):
+        distance = int(self.ids.sightdistance.text)
+
+        if self.ids.sightyd.state == "down":
+            dist_unit = "yd"
+        else:
+            dist_unit = "m"
+
+        vertical_dist = float(self.ids.sightverticaldistance.text)
+
+        if self.ids.sightvin.state == "down":
+            vertical_unit = "in"
+        else:
+            vertical_unit = "cm"
+
+        horizontal_dist = float(self.ids.sighthorizontaldistance.text)
+
+        if self.ids.sighthin.state == "down":
+            horizontal_unit = "in"
+        else:
+            horizontal_unit = "cm"
+
+        units = []
+        units.append(vertical_unit)
+        units.append(horizontal_unit)
+
+        Sight = SI.SightAdjustment(horizontal_dist,vertical_dist,units)
+        adjustments = Sight.sightadjust(distance,dist_unit)
+
+        self.ids.sightEAdjustMoa.text = str(adjustments[3]) + " MOA"
+        self.ids.sightEAdjustMil.text = str(adjustments[1]) + " MIL"
+        self.ids.sightWAdjustMoa.text = str(adjustments[2]) + " MOA"
+        self.ids.sightWAdjustMil.text = str(adjustments[0]) + " MIL"
+
 
 class GraphUnits(BoxLayout):
     def __init__(self, **kwargs):

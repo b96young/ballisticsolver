@@ -23,6 +23,10 @@
                 group: 'selector'
                 on_state: root.show_simulation() if self.state == 'down' else root.clear_main()
             ToggleButton:
+                text: 'Sight In Tool'
+                group: 'selector'
+                on_state: root.show_sight_in() if self.state == 'down' else root.clear_main()
+            ToggleButton:
                 text: 'Graph Units'
                 group: 'selector'
                 on_state: root.show_graph_units() if self.state == 'down' else root.clear_main()
@@ -462,3 +466,108 @@
 
         Widget: #Spacing Widget
             size_hint:1,.4
+<SightIn>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing:10
+
+        Widget: #Spacing Widget
+            size_hint:1,.35
+        BoxLayout:
+            size_hint_y:.15
+            orientation: 'horizontal'
+            Label:
+                text:'Elevation Adjustment'
+                size_hint_x:0.5
+            Label:
+                text:'MOA'
+                id:sightEAdjustMoa
+                size_hint_x:0.25
+            Label:
+                text:'MIL'
+                id:sightEAdjustMil
+                size_hint_x:0.25
+        BoxLayout:
+            size_hint_y:.15
+            orientation: 'horizontal'
+            Label:
+                text:'Windage Adjustment'
+                size_hint_x:0.5
+            Label:
+                text:'MOA'
+                id:sightWAdjustMoa
+                size_hint_x:0.25
+            Label:
+                text:'MIL'
+                id:sightWAdjustMil
+                size_hint_x:0.25
+
+        Widget: #Spacing Widget
+            size_hint:1,.35
+
+        BoxLayout:
+            size_hint_y:.15
+            orientation: 'horizontal'
+            Label:
+                text:'Distance'
+                size_hint_x:0.5
+            TextInput:
+                size_hint_x:0.2
+                id:sightdistance
+            ToggleButton:
+                text:'yd'
+                id:sightyd
+                group:'sight_dist'
+                size_hint_x:0.15
+            ToggleButton:
+                text:'m'
+                id:sightm
+                group:'sight_dist'
+                size_hint_x:0.15
+        BoxLayout:
+            size_hint_y:.15
+            orientation: 'horizontal'
+            Label:
+                text:'Vertical Distance'
+                size_hint_x:0.5
+            TextInput:
+                size_hint_x:0.2
+                id:sightverticaldistance
+            ToggleButton:
+                text:'in'
+                id:sightvin
+                group:'sightvert_dist'
+                size_hint_x:0.15
+            ToggleButton:
+                text:'cm'
+                id:sightvcm
+                group:'sightvert_dist'
+                size_hint_x:0.15
+        BoxLayout:
+            size_hint_y:.15
+            orientation: 'horizontal'
+            Label:
+                text:'Horizontal Distance'
+                size_hint_x:0.5
+            TextInput:
+                size_hint_x:0.2
+                id:sighthorizontaldistance
+            ToggleButton:
+                text:'in'
+                id:sighthin
+                group:'sighthoriz_dist'
+                size_hint_x:0.15
+            ToggleButton:
+                text:'cm'
+                id:sighthcm
+                group:'sighthoriz_dist'
+                size_hint_x:0.15
+        BoxLayout:
+            size_hint_y:.15
+            orientation: 'horizontal'
+            Button:
+                text:'Show Sight-in Adjustments'
+                on_press: root.runSight()
+
+        Widget: #Spacing Widget
+            size_hint:1,.35
