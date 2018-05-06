@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from math import pow as pow
 import math,random
-import csvreader
+import csvhandler
 
 class Trajectory(object):
 
@@ -91,14 +91,17 @@ class Trajectory(object):
         #Bullet cross area
         bullet_area = math.pow(bullet_dia,2)*3.14/4
 
+        #Density of air
+        air_density = self.bullet["air_density"]
+
         for t in range(0,self.steps+1):
             #Calculate BC for the velocity
-            reference_cd = csvreader.dragCoefficient(self.bullet["drag_model"],velocity_x_instant,343)
+            reference_cd = csvhandler.dragCoefficient(self.bullet["drag_model"], velocity_x_instant, 343)
             drag_coefficient = bullet_mass*reference_cd/self.bullet["ballistic_coeff"]/math.pow(bullet_dia,2)*0.0014223
 
             #CALCULATE BULLET DROP AND VELOCITY
             currentTime = t * float(self.time_interval)
-            velocity_x_instant_updated = velocity_x_instant + self.time_interval*(-0.5*self.bullet["air_density"]*drag_coefficient*bullet_area*pow(velocity_x_instant,2)/bullet_mass)
+            velocity_x_instant_updated = velocity_x_instant + self.time_interval*(-0.5*air_density*drag_coefficient*bullet_area*pow(velocity_x_instant,2)/bullet_mass)
             dist_x_instant_updated = dist_x_instant + self.time_interval*(velocity_x_instant)
 
             #Calculate Windage Effects (y direction, From right to left is positive direction)
@@ -137,7 +140,7 @@ class Trajectory(object):
 
             #Create excel table with drop information
             if excelFile == True:
-                csvreader.createDropTable(distance_graph,elevation_graph,windage_graph,velocity_graph)
+                csvhandler.createDropTable(distance_graph, elevation_graph, windage_graph, velocity_graph)
 
             # PLOT WINDAGE vs DISTANCE
             if plot3D == True:
@@ -202,10 +205,10 @@ class Trajectory(object):
                 stop = True
                 # if unit == 'yd':
                 #     distance = distance*1.09361
-                print ("MIL Elevation Adjustment for " + str(distance) + "yd is " + str(round(self.elevation_angle*1000,1)))
-                print ("MOA Elevation Adjustment for " + str(distance) + "yd is " + str(round(self.elevation_angle * 1000*3.44, 1)))
-                print("MIL Windage Adjustment for " + str(distance) + "yd is " + str(round(self.windage_angle * 1000, 1)))
-                print("MOA Windage Adjustment for " + str(distance) + "yd is " + str(round(self.windage_angle * 1000 * 3.44, 1)))
+                print ("MIL Elevation Adjustment for " + str(distance) + "m is " + str(round(self.elevation_angle*1000,1)))
+                print ("MOA Elevation Adjustment for " + str(distance) + "m is " + str(round(self.elevation_angle * 1000*3.44, 1)))
+                print("MIL Windage Adjustment for " + str(distance) + "m is " + str(round(self.windage_angle * 1000, 1)))
+                print("MOA Windage Adjustment for " + str(distance) + "m is " + str(round(self.windage_angle * 1000 * 3.44, 1)))
                 # else:
                 #     print ("MIL Elevation Adjustment for " + str(distance) + "m is " + str(round(self.elevation_angle*1000,1)))
                 #     print ("MOA Elevation Adjustment for " + str(distance) + "m is " + str(round(self.elevation_angle * 1000*3.44, 1)))

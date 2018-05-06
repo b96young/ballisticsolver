@@ -1,6 +1,5 @@
 import json
 import BallisticCalculationClass as BCC
-import BallisticSolverFunctions as BSF
 
 from kivy.app import App
 from kivy.uix.togglebutton import ToggleButton
@@ -12,7 +11,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.lang import Builder
 from kivy.config import Config
-Builder.load_file('kv.kv')
+Builder.load_file('GUI_layout.kv')
 
 Config.set('graphics', 'width', '1280')
 Config.set('graphics', 'height', '640')
@@ -72,6 +71,8 @@ class ContainerBox(BoxLayout):
             self.ids.paramwindspeed.text = str(round(param_data.data["BallisticSolver"]['parameters']['wind_speed']/0.277778,1))
 
         self.ids.paramwindangle.text = str(param_data.data["BallisticSolver"]['parameters']['wind_angle'])
+
+        self.ids.airdensity.text = str(param_data.data["BallisticSolver"]['bullet']['air_density'])
 #-----------------------------------------------------------------------------------------------------------------------
 
     def saveParams(self):
@@ -107,6 +108,8 @@ class ContainerBox(BoxLayout):
             param_data.data["BallisticSolver"]['parameters']['wind_speed'] = float(self.ids.paramwindspeed.text)*0.277778
 
         param_data.data["BallisticSolver"]['parameters']['wind_angle'] = int(self.ids.paramwindangle.text)
+
+        param_data.data["BallisticSolver"]['bullet']['air_density'] = float(self.ids.airdensity.text)
 
         param_data.write_json(param_data.data)
 
